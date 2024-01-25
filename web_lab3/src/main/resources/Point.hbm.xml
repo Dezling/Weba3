@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="ru.itmo.bean.Point" table="point_on_helios">
+        <id name="id" type="long" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="x" column="x" type="float"/>
+        <property name="y" column="y" type="java.lang.String"/>
+        <property name="r" column="r" type="int"/>
+        <property name="result" column="result" type="boolean"/>
+        <property name="creationDate" column="creationDate" type="date"/>
+        <property name="executeTime" column="executeTime" type="long"/>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+    <title>WebLab 3</title>
+    <h:outputStylesheet library="style" name="styles_main.css"/>
+</h:head>
+<h:body>
+    <div>
+        <div class="studentInfo">
+            <p>ФИО: Одинцов Максим Николаевич</p>
+            <p>Группа: P3225</p>
+            <p>Вариант: 861311</p>
+        </div>
+        <div>
+            <div class="graph">
+                <canvas id="graph" width="520" height="480"/>
+            </div>
+            <div class="point">
+                <canvas id="point" width="520" height="480"/>
+            </div>
+        </div>
+        <div class="form">
+            <h:form id="form">
+                <h:inputHidden id="x" value="#{point.x}" onchange="dot()">
+                    <f:validator validatorId="validatorForX"/>
+                </h:inputHidden>
+                <p:slider for="x" onSlide="dot()" maxValue="2" minValue="-2" range="1"/>
+                <div class="formYAndR">
+                    <h:inputText id="y" value="#{point.y}" onchange="setY(value);dot()" required="true">
+                        <f:validator validatorId="validatorForY"/>
+                    </h:inputText>
+                    <h:selectOneRadio id="r" onclick="drawGraph(this.value)" value="#{point.r}" required="true"
+                                      immediate="true">
+                        <f:selectItem itemValue="1" itemLabel="1"/>
+                        <f:selectItem itemValue="2" itemLabel="2"/>
+                        <f:selectItem itemValue="3" itemLabel="3"/>
+                        <f:selectItem itemValue="4" itemLabel="4"/>
+                        <f:selectItem itemValue="5" itemLabel="5"/>
+                        <f:validator validatorId="validatorForR"/>
+                    </h:selectOneRadio>
+                </div>
+                <h:commandButton type="submit" id="sendButton"
+                                 actionListener="#{pointController.creatPoint(point.x,point.y,point.r)}">Отправить</h:commandButton>
+                <div class="errorHub">
+                    <h:message for="x"/>
+                    <br/>
+                    <h:message for="y"/>
+                    <br/>
+                    <h:message for="r"/>
+                </div>
+
+            </h:form>
+        </div>
+        <div class="resultTable">
+            <div class="tableContainer">
+                <h:inputHidden id="pointList" value="#{pointController.jsonPointList}"/>
+                <h:dataTable id="resultTable" value="#{pointController.pointList}" var="pointList">
+                    <h:column>
+                        <f:facet name="header">X</f:facet>
+                        #{pointList.x}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Y</f:facet>
+                        #{pointList.y}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">R</f:facet>
+                        #{pointList.r}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">RESULT</f:facet>
+                        #{pointList.result}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">EXECUTE TIME</f:facet>
+                        #{pointList.executeTime}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">CREATION DATE</f:facet>
+                        #{pointList.creationDate}
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </div>
+        <div>
+            <h:button outcome="time" value="Часики=>"/>
+        </div>
+    </div>
+    <h:outputScript library="js" name="coordinate_system.js"/>
+    <h:outputScript library="js" name="checkData.js"/>
+</h:body>
+</html>
